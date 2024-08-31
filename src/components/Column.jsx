@@ -4,58 +4,56 @@ import { useDispatch, useSelector } from "react-redux";
 import { uid } from "uid";
 import { addTask, removeTask } from "../utils/Redux/TaskSlice";
 import CardComponent from "./Cards";
-const Column = ({ Cards }) => {
-  const [inputTask, setInputTask] = useState("");
-  const [description, setDescription] = useState("");
-  const [searchFilter, setSearchFilter] = useState(Cards);
-  const dispatch = useDispatch();
-  const searchInp = useSelector((store) => store.search.term);
-  const [direction, setDirection] = useState("vertical");
 
+const Column = ({ Cards }) => {
+  const [inputTask, setInputTask] = useState(""); 
+  const [description, setDescription] = useState(""); 
+  const [searchFilter, setSearchFilter] = useState(Cards);
+  const dispatch = useDispatch(); 
+  const searchInp = useSelector((store) => store.search.term); // Get search term from Redux store
+  const [direction, setDirection] = useState("vertical"); 
+
+  // Effect to filter cards based on search input
   useEffect(() => {
     if (!searchInp) {
-      setSearchFilter(Cards);
+      setSearchFilter(Cards); // If No search term, show all cards
     } else {
+      // Filter cards based on search input
       const filterData = Cards?.map((card) => {
-        // Filter items within each card based on the search input
         const filteredItems = card.items.filter((innerItem) =>
           innerItem.name.toLowerCase().includes(searchInp.toLowerCase())
         );
-      
-        // If filteredItems is empty, return card with empty items array
+        
+        // Return card with filtered items
         return { ...card, items: filteredItems.length > 0 ? filteredItems : [] };
       });
 
       setSearchFilter(filterData);
     }
-  }, [Cards, searchInp]);
+  }, [Cards, searchInp]); 
 
+  // Effect to update layout direction based on screen size
   useEffect(() => {
-    // Function to check screen size and update direction
     const updateDirection = () => {
       if (window.innerWidth >= 768) {
-        // md breakpoint is usually 768px or greater
-        setDirection("horizontal");
+        setDirection("horizontal"); 
       } else {
-        setDirection("vertical");
+        setDirection("vertical"); 
       }
     };
 
-    // Initial check
-    updateDirection();
+    updateDirection(); 
+    window.addEventListener("resize", updateDirection); 
 
-    // Event listener for window resize
-    window.addEventListener("resize", updateDirection);
-
-    // Cleanup the event listener on component unmount
     return () => {
-      window.removeEventListener("resize", updateDirection);
+      window.removeEventListener("resize", updateDirection); 
     };
   }, []);
 
+  // Handler to delete a task
   const handleDeleteTask = (taskId, CardId) => {
     const id = { taskId, CardId };
-    dispatch(removeTask(id));
+    dispatch(removeTask(id)); 
   };
 
   return (
@@ -63,26 +61,26 @@ const Column = ({ Cards }) => {
       <Droppable droppableId="all-Column" type="Column" direction={direction}>
         {(provided) => (
           <div
-            className="h-full gap-5 grid grid-rows-1 md:grid-cols-4 gap-y-5 px-4 md:px-20 "
+            className="h-full gap-5 grid grid-rows-1 md:grid-cols-4 gap-y-5 px-4 md:px-20"
             {...provided.droppableProps}
             ref={provided.innerRef}
           >
-            {/*Column Container  */}
+            {/* Column Container */}
             {searchFilter?.map((Card, index) => (
               <Draggable key={Card.id} draggableId={Card.id} index={index}>
                 {(provided) => (
                   <div
-                    className="Card-container  mb-10 py-2 px-4 group rounded-lg shadow-md shadow-black bg-slate-100 w-full border-2 border-slate-700"
+                    className="Card-container mb-10 py-2 px-4 group rounded-lg shadow-md shadow-black bg-slate-100 w-full border-2 border-slate-700"
                     {...provided.draggableProps}
                     ref={provided.innerRef}
                   >
                     <h3
-                      className="group my-2 text-sm flex justify-evenly poppins-extrabold  from-stone-800 border-2 border-[#a5a3d6] rounded-lg shadow-md py-3 px-2"
+                      className="group my-2 text-sm flex justify-evenly poppins-extrabold from-stone-800 border-2 border-[#a5a3d6] rounded-lg shadow-md py-3 px-2"
                       {...provided.dragHandleProps}
                     >
                       <div className="flex items-center justify-center">
                         <div>
-                          {Card.name} <span className="ml-2  text-rose-500">{Card.items.length}</span> 
+                          {Card.name} <span className="ml-2 text-rose-500">{Card.items.length}</span>
                         </div>
                         <div
                           className={`w-6 h-6 ${
@@ -91,16 +89,16 @@ const Column = ({ Cards }) => {
                               : "invisible"
                           }`}
                         >
-                          <img src="/check.png" alt="" />
+                          <img src="/check.png" alt="Completion Check" />
                         </div>
                       </div>
                       <img
                         src="/shuffle.png"
-                        alt=""
+                        alt="Shuffle Icon"
                         className="w-5 h-5 invisible group-hover:visible"
                       />
                     </h3>
-                    {/* Cards */}
+                    {/* Render cards within each column */}
                     <CardComponent
                       Card={Card}
                       type="item"

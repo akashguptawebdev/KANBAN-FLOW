@@ -113,7 +113,7 @@ const taskSlice = createSlice({
     },
     removeTask: (state, action) => {
       const { CardId, taskId } = action.payload;
-     
+
       const cardToUpdate = state.Data.find((card) => card.id === CardId);
       if (!cardToUpdate) {
         console.error("Card not found");
@@ -132,7 +132,7 @@ const taskSlice = createSlice({
     updateTaskOrder: (state, action) => {
       const { CardId, updatedItems } = action.payload;
       const cardToUpdate = state.Data.find((card) => card.id === CardId);
- 
+
       if (cardToUpdate) {
         cardToUpdate.items = updatedItems;
       }

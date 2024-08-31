@@ -1,12 +1,12 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage'; // Defaults to localStorage for web
-import taskReducer from './TaskSlice'; // Ensure correct path
-import searchReducer from "./searchSlice"
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import taskReducer from "./TaskSlice";
+import searchReducer from "./searchSlice";
 // Persist configuration
 const persistConfig = {
-  key: 'root', // The key in storage
-  storage, // The storage engine to use
+  key: "root",
+  storage,
 };
 
 // Combine reducers

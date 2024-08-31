@@ -7,7 +7,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import store, { persistor } from "./utils/Redux/reduxPersistConfig.js"; // Import the store and persistor
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 
 createRoot(document.getElementById("root")).render(
   <Provider store={store}>
