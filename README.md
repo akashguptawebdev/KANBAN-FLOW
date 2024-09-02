@@ -115,6 +115,3 @@ index.html             # Main HTML file
 ## GitHub Repository
 
 Check out the source code on GitHub: [KANBAN-FLOW](https://github.com/akashguptawebdev/KANBAN-FLOW)
-```
-
-You can copy and paste this content directly into your README.md file! Let me know if you need any further assistance.
